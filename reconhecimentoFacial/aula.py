@@ -55,3 +55,34 @@ while True:
     if cv2.waitKey(5) == 27:
         break
 #para corrigir o problema de falsos positivos podemos reduzir a dimensionalidade da imagem
+#podemos fazer para evitar a distorção é calcular a proporção que a imagem será reduzida
+imagem2 = cv2.imread("face/people1.jpg")
+nova_largura = 600
+proporcao = 1680 / 1120
+nova_altura = int(nova_largura / proporcao)
+
+imagem_redimensionada = cv2.resize(imagem2, (nova_largura, nova_altura))
+print(imagem_redimensionada.shape)
+
+while True:
+    cv2.imshow("Imagem redimensionada", imagem_redimensionada)
+    if cv2.waitKey(5) == 27:
+        break
+
+imgR_cinza = cv2.cvtColor(imagem_redimensionada, cv2.COLOR_BGR2GRAY)
+
+while True:
+    cv2.imshow("Imagem redimensionada e cinza", imgR_cinza)
+    if cv2.waitKey(5) == 27:
+        break
+
+novaDeteccao = detector_facial.detectMultiScale(imgR_cinza)
+print(len(novaDeteccao))
+
+for (x,y,w,h) in novaDeteccao:
+    cv2.rectangle(imagem_redimensionada, (x,y), (x + w, y + h), (0, 255, 255), 2)
+
+while True:
+    cv2.imshow("Faces reconhecidas", imagem_redimensionada)
+    if cv2.waitKey(5) == 27:
+        break 
