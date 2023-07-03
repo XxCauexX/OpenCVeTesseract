@@ -54,6 +54,7 @@ while True:
     cv2.imshow("Faces reconhecidas", imagem1)
     if cv2.waitKey(5) == 27:
         break
+
 #para corrigir o problema de falsos positivos podemos reduzir a dimensionalidade da imagem
 #podemos fazer para evitar a distorção é calcular a proporção que a imagem será reduzida
 imagem2 = cv2.imread("face/people1.jpg")
@@ -85,4 +86,25 @@ for (x,y,w,h) in novaDeteccao:
 while True:
     cv2.imshow("Faces reconhecidas", imagem_redimensionada)
     if cv2.waitKey(5) == 27:
-        break 
+        break
+
+#redimensionando por escala
+imagem2 = cv2.imread("face/people1.jpg")
+imagem2 = cv2.resize(imagem2, (0, 0), fx=0.5, fy=0.5)
+print(imagem2.shape)
+
+while True:
+    cv2.imshow("Faces reconhecidas", imagem2)
+    if cv2.waitKey(5) == 27:
+        break
+
+img_cinza = cv2.cvtColor(imagem2, cv2.COLOR_BGR2GRAY)
+novaDeteccao = detector_facial.detectMultiScale(img_cinza)
+
+for (x, y, w, h) in novaDeteccao:
+    cv2.rectangle(imagem2, (x, y), (x+w, y+h), (0, 255, 255), 2)
+
+while True:
+    cv2.imshow("faces reconhecidas", imagem2)
+    if cv2.waitKey(5) == 27:
+        break
